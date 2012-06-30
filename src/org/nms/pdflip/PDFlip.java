@@ -7,6 +7,7 @@ package org.nms.pdflip;
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FileDialog;
 import java.awt.Frame;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -19,11 +20,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -44,10 +46,26 @@ public class PDFlip extends JFrame
         }
     }
     
+    // opens the file dialog
     private static String getFilename() {
-        JFileChooser fc = new JFileChooser();
-        fc.showOpenDialog(null);
-        return fc.getSelectedFile().getAbsolutePath();
+        FileDialog fd = new FileDialog((JFrame)null, 
+                "Select PDF File", FileDialog.LOAD);
+        fd.setFilenameFilter(
+                new FilenameFilter() {
+                    @Override
+                    public boolean accept(File dir, String name) {
+                        return name.endsWith(".pdf");
+                    }
+                });
+        fd.setVisible(true);
+        
+        String r = fd.getFile();
+        if (r == null) {
+            error(null);
+            return null;
+        } else {
+            return fd.getDirectory() + "/" + r;
+        }
     }
     
     // shows an error, closes program
