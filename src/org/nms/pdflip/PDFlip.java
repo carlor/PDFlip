@@ -154,7 +154,6 @@ public class PDFlip extends JFrame
     @Override
     public boolean dispatchKeyEvent(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-        System.out.println("hi");
             setVisible(false);
             error(null);
             return false;
